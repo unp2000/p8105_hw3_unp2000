@@ -1,0 +1,18 @@
+---
+title: "p8105_hw3_2000"
+author: Uma Palaniappan, unp2000
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Problem 1
+## Instacart 
+
+```{r}
+library(p8105.datasets)
+data("instacart") 
+```
+
