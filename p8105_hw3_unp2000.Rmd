@@ -10,9 +10,24 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Problem 1
 ## Instacart 
-
 ```{r}
+library(tidyverse)
 library(p8105.datasets)
 data("instacart") 
+```
+
+`r nrow(instacart)` 1384617 rows 
+`r ncol(instacart)` 15 columns 
+
+How many aisles are there, and which aisles are the most items ordered from?
+There are `r nrow(distinct(instacart, aisle))` distinct aisles.
+
+`r nrow(distinct(instacart, product_name))`
+
+```{r}
+instacart %>%
+  group_by(aisle_id, aisle) %>%
+  summarize (n = n()) %>%
+  arrange(desc(n))
 ```
 
