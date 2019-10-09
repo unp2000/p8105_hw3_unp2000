@@ -55,10 +55,17 @@ ggplot(
 Make a table showing the three most popular items in each of the aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits”. Include the number of times each item is ordered in your table.
 
 ```{r}
-insta_pop = filter(instacart, aisle == "baking ingredients", aisle == "dog food care", aisle == "packaged vegetables fruits") %>%
+library(knitr)
+
+insta_rank_new = instacart %>%
+      filter(aisle == "baking ingredients"| aisle == "dog food care"| aisle == 
+      "packaged vegetables fruits") %>%
       group_by(aisle, product_name) %>%
-      summarize (n = n()) %>%
-      arrange(desc(n)) %>%
-      knitr::kable()
+      summarise(n = n()) %>%
+      mutate(product_ranking = min_rank(desc(n))) %>% 
+      filter(product_ranking < 4)  %>%
+      knitr::kable ()
 ```
+
+
 
