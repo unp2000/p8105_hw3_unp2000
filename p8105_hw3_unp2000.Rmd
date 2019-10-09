@@ -26,6 +26,7 @@ There are `r nrow(distinct(instacart, aisle))` distinct aisles.
 
 ```{r}
 instacart_new=instacart %>%
+    janitor::clean_names() %>%
     group_by(aisle_id, aisle) %>%
     summarize (n = n()) %>%
     arrange(desc(n))
@@ -58,6 +59,7 @@ Make a table showing the three most popular items in each of the aisles “bakin
 library(knitr)
 
 insta_rank_new = instacart %>%
+      janitor::clean_names() %>%
       filter(aisle == "baking ingredients"| aisle == "dog food care"| aisle == 
       "packaged vegetables fruits") %>%
       group_by(aisle, product_name) %>%
@@ -66,6 +68,46 @@ insta_rank_new = instacart %>%
       filter(product_ranking < 4)  %>%
       knitr::kable ()
 ```
+Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).
+
+```{r}
+instacart_hour = instacart %>%
+     filter(product_name == "Pink Lady Apples"| product_name == "Coffee Ice Cream") %>%
+     group_by(order_hour_of_day, order_dow, product_name) %>%
+      summarise(n = n()) %>%
+      mutate(mean_hour = mean(order_hour_of_day)) %>% 
+      knitr::kable ()
 
 
+```
+
+# Problem 2 
+
+First, do some data cleaning:
+
+format the data to use appropriate variable names;
+focus on the “Overall Health” topic
+include only responses from “Excellent” to “Poor”
+organize responses as a factor taking levels ordered from “Poor” to “Excellent”
+
+```{r}
+library(p8105.datasets)
+data("brfss_smart2010")
+```
+
+```{r}
+brfss_new=brfss_smart2010 %>%
+    janitor::clean_names() %>%
+    filter(topic == "Overall Health") 
+    
+``` 
+
+```{r}
+brfss_new2=brfss_new %>%
+    filter(response == "Excellent" | response == "Very good"| response ==  "Fair"
+        |response == "Fair or Poor Health" | response == "Good" | response == "Good or
+        Better Health" | response == "Poor") 
+  
+    
+```
 
