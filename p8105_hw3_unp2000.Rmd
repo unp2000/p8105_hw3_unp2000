@@ -57,7 +57,6 @@ Make a table showing the three most popular items in each of the aisles “bakin
 
 ```{r}
 library(knitr)
-
 insta_rank_new = instacart %>%
       janitor::clean_names() %>%
       filter(aisle == "baking ingredients"| aisle == "dog food care"| aisle == 
@@ -69,16 +68,17 @@ insta_rank_new = instacart %>%
       knitr::kable ()
 ```
 Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).
-
 ```{r}
-instacart_hour = instacart %>%
-     filter(product_name == "Pink Lady Apples"| product_name == "Coffee Ice Cream") %>%
-     group_by(order_hour_of_day, order_dow, product_name) %>%
-      summarise(n = n()) %>%
-      mutate(mean_hour = mean(order_hour_of_day)) %>% 
-      knitr::kable ()
-
-
+instacart_table2=instacart %>%
+  filter(product_name == "Pink Lady Apples" | 
+    product_name == "Coffee Ice Cream") %>%
+    group_by(product_name, order_dow) %>%
+    summarize(mean_order_hour= mean(order_hour_of_day)) %>%
+    select(product_name, order_dow, mean_order_hour) %>%
+    pivot_wider(
+      names_from = order_dow,
+        values_from = mean_order_hour) %>%
+    knitr::kable ()
 ```
 
 # Problem 2 
@@ -107,7 +107,5 @@ brfss_new2=brfss_new %>%
     filter(response == "Excellent" | response == "Very good"| response ==  "Fair"
         |response == "Fair or Poor Health" | response == "Good" | response == "Good or
         Better Health" | response == "Poor") 
-  
-    
 ```
 
