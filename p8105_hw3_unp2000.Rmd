@@ -172,8 +172,6 @@ ggplot(two_panel, aes(x = response, y = data_value, color = year)) +
     x = "Response Type",
     y = "Data Value"
   )
-      
-    
 ```
 
 
