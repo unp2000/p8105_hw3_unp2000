@@ -108,5 +108,30 @@ brfss_new=brfss_smart2010 %>%
             factor(response, labels = c("Poor", "Fair", "Good", "Very good", "Excellet")))%>%
             select(-location_id, -data_value_footnote_symbol, - data_value_footnote)
 ``` 
+In 2002, which states were observed at 7 or more locations? What about in 2010?
+
+```{r}
+brfss_new %>%
+  filter(year == "2002") %>%
+  group_by(locationabbr) %>%
+  summarize(
+    number_locations = n_distinct(geo_location)) %>%
+    filter(number_locations>6) %>%
+    arrange(desc(number_locations))
+```
+In 2002, the states that were observed at 7 or more locations were NC, FL, CT, NJ, MA, PA. 
+
+In 2010, the states that were observed at 7 or more locations were SC, PA, CO, OH, NY, MA, WA, NE, NC, MD, CA, TX, NJ, FL
+```{r}
+brfss_new %>%
+  filter(year == "2010") %>%
+  group_by(locationabbr) %>%
+  summarize(
+    number_locations = n_distinct(geo_location)) %>%
+    filter(number_locations>6) %>%
+    arrange(desc(number_locations))
+```
+In 2010, the states that were observed at 7 or more locations were SC, PA, CO, OH, NY, MA, WA, NE, NC, MD, CA, TX, NJ, FL
+
 
 
