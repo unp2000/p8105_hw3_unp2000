@@ -177,5 +177,10 @@ ggplot(two_panel, aes(x = response, y = data_value, color = year)) +
 
 # Problem 3 
 
+```{r}
+problem3_data = 
+  read_csv("./data/accel_data.csv")
+```
+
 
 
