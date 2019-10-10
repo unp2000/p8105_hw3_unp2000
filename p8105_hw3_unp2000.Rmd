@@ -150,6 +150,7 @@ brfss_spaghetti =
     x = "Year",
     y = "Average Data Value"
   )
+brfss_spaghetti
 ```
 Make a two-panel plot showing, for the years 2006, and 2010, distribution of data_value for responses (“Poor” to “Excellent”) among locations in NY State.
 
@@ -174,7 +175,7 @@ ggplot(two_panel, aes(x = response, y = data_value, color = year)) +
   )
 ```
 
-
+# Problem 3 
 
 
 
