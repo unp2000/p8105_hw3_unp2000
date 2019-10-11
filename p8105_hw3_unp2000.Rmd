@@ -185,10 +185,17 @@ problem3_data =
                                       "Saturday", "Sunday")),
          dow = day == "Saturday" | day == "Sunday",
          dow = ifelse(dow == TRUE, "Weekend", "Weekday")) %>%
-  select(week, day_id, day, dow, everything ()) 
-  
-  
+  select(week,day, dow, everything (),-day_id) 
 ```
+We have 35 obeservations and 1444 variables in the problem 3 dataset which uses five weeks of accelerometer data that was collected on a 63 year-old male with BMI 25. Additionally, we have `r nrow(problem3_data)` rows and `r ncol(problem3_data)` columns. The variables are the week in which the data was collected, the specific day (Monday - Sunday), the day of the week (either Weekday or Weekend), and the activity per minute for 24 hours (activity_1 to activity_1440)
 
+
+Traditional analyses of accelerometer data focus on the total activity over the day. Using your tidied dataset, aggregate accross minutes to create a total activity variable for each day, and create a table showing these totals. Are any trends apparent?
+```{r}
+problem3_data %>%
+  group_by(day) %>%
+  summarize(mean_activity= mean(activity_1:activity_1440))%>%
+  knitr::kable ()
+```
 
 
