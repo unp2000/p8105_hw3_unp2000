@@ -165,14 +165,17 @@ two_panel = brfss_new %>%
            year == "2006"|
            year == "2010",
            locationabbr == "NY") 
-ggplot(two_panel, aes(x = response, y = data_value, color = year)) + 
-  geom_point() +
+
+
+ggplot(two_panel, aes(x = response, y = data_value, color = response)) + 
+  geom_boxplot() +
   facet_grid(. ~year) +
   labs(
     title = "Distribution of Data Values for Responses among locations in NY State",
     x = "Response Type",
     y = "Data Value"
   )
+
 ```
 
 # Problem 3 
@@ -193,9 +196,21 @@ We have 35 obeservations and 1444 variables in the problem 3 dataset which uses 
 Traditional analyses of accelerometer data focus on the total activity over the day. Using your tidied dataset, aggregate accross minutes to create a total activity variable for each day, and create a table showing these totals. Are any trends apparent?
 ```{r}
 problem3_data %>%
-  group_by(day) %>%
-  summarize(mean_activity= mean(activity_1:activity_1440))%>%
+  group_by(week, day) %>%
+  summarize(sum_activity= sum(activity_1:activity_1440))%>%
   knitr::kable ()
 ```
+The trends that are apparent 
 
+Accelerometer data allows the inspection activity over the course of the day. Make a single-panel plot that shows the 24-hour activity time courses for each day and use color to indicate day of the week. Describe in words any patterns or conclusions you can make based on this graph.
+
+```{r}
+ggplot(problem3_data, aes(x = day, fill = sum_activity)) + 
+  geom_histogram (bindwidth =2) +
+  labs(
+    title = "24 hour activity",
+    x = "Day of Week",
+    y = "Sum Activity"
+  )
+```
 
