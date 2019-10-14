@@ -22,12 +22,8 @@ instacart %>%
     distinct(department)
 ```
 
-
-
 How many aisles are there and which aisles are the most items ordered from?
 There are `r nrow(distinct(instacart, aisle))` distinct aisles.
-
-`r nrow(distinct(instacart, product_name))`
 
 ```{r}
 instacart_new=instacart %>%
@@ -39,7 +35,6 @@ instacart_new=instacart %>%
 The aisles that the most items are ordered from are fresh vegetables (aisle 83, n = 150,609), fresh fruits (aisle 24, n = 150,473), and packaged vegetable and fruits (aisle 123, n = 78,493). 
 
 Make a plot that shows the number of items ordered in each aisle, limiting this to aisles with more than 10000 items ordered. Arrange aisles sensibly, and organize your plot so others can read it.
-
 
 ```{r}
 plot_1= filter(instacart_new, n > 10000)
@@ -73,6 +68,7 @@ insta_rank_new = instacart %>%
       knitr::kable ()
 ```
 Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).
+
 ```{r}
 instacart_table2=instacart %>%
   filter(product_name == "Pink Lady Apples" | 
@@ -208,7 +204,7 @@ acce_table = problem3_data %>%
 
 acce_table
 ```
-The trends that are apparent 
+When looking at daily activity by Weeks we can see that overall there is some increase and some decrease with the activity time. Therefore, it is a bit difficult to analyze whether there is a linear increase from Week 1 to Week 5, in fact we can say that it looks mostly non-linear. Some of the lowest daily activity throughout the 5 week period was on Wednesdays in Week 4 and Week 5 while some of the highest daily activity throughout the 5 week period was on Thursdays of Week 1 and Week 3. Most of the Weeks had activity that fluctuated and some started off higher than other weeks. 
 
 Accelerometer data allows the inspection activity over the course of the day. Make a single-panel plot that shows the 24-hour activity time courses for each day and use color to indicate day of the week. Describe in words any patterns or conclusions you can make based on this graph.
 
@@ -224,5 +220,5 @@ plot_accel= acce_table %>%
       )
 plot_accel
 ```
-
+Based on this graph we can see that for the Weekdays (Monday - Friday) we can see that the total activity time is non-linear for the most part. Some days start off with higher activity at the beginning of the 5 week period (ex: Thursday) versus others start off with lower activity at the beginning of the 5 week period (ex: Tuesday, Wednesday). Additionally, we can see that for the most part at the end of the 5 week period the ending total activity time is relatively similar to where activity time started at the beginning of the 5 week period. A majority of the variability is in the middle of the 5 week period (likely around week 3) which is where we see the drastic increases and decreases. 
 
