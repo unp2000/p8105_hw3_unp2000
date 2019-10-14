@@ -15,9 +15,14 @@ library(tidyverse)
 library(p8105.datasets)
 data("instacart") 
 ```
+The instacart data is based on Instacart which is an online grocery service that allows you to shop online from local stores. This specific dataset contains  with `r nrow(instacart)` 1384617 observations of 131,209 unique users and `r ncol(instacart)` 15 columns.There are 15 variables that include the order_id, the product_id, information about the day the order was placed, the hour the order was plaeced, the name of the product ordered and the specific aisle the product was ordered on. Some key variables include the aisle_id and the aisle which are important in identifying the specific aisle the corresponding product was ordered on. From the code below we can see that there are 21 distinct departments.  
 
-`r nrow(instacart)` 1384617 rows 
-`r ncol(instacart)` 15 columns 
+```{r}
+instacart %>%
+    distinct(department)
+```
+
+
 
 How many aisles are there and which aisles are the most items ordered from?
 There are `r nrow(distinct(instacart, aisle))` distinct aisles.
@@ -184,33 +189,40 @@ ggplot(two_panel, aes(x = response, y = data_value, color = response)) +
 problem3_data = 
   read_csv("./data/accel_data.csv") %>%
   janitor::clean_names() %>%
-  mutate(day = factor(day, labels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
-                                      "Saturday", "Sunday")),
+  mutate(day = factor(day, labels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")),
          dow = day == "Saturday" | day == "Sunday",
          dow = ifelse(dow == TRUE, "Weekend", "Weekday")) %>%
-  select(week,day, dow, everything (),-day_id) 
+  select(week, day_id, day, dow, everything ()) 
 ```
 We have 35 obeservations and 1444 variables in the problem 3 dataset which uses five weeks of accelerometer data that was collected on a 63 year-old male with BMI 25. Additionally, we have `r nrow(problem3_data)` rows and `r ncol(problem3_data)` columns. The variables are the week in which the data was collected, the specific day (Monday - Sunday), the day of the week (either Weekday or Weekend), and the activity per minute for 24 hours (activity_1 to activity_1440)
 
 
 Traditional analyses of accelerometer data focus on the total activity over the day. Using your tidied dataset, aggregate accross minutes to create a total activity variable for each day, and create a table showing these totals. Are any trends apparent?
 ```{r}
-problem3_data %>%
-  group_by(week, day) %>%
-  summarize(sum_activity= sum(activity_1:activity_1440))%>%
-  knitr::kable ()
+acce_table = problem3_data %>%
+  pivot_longer(activity_1:activity_1440, 
+              names_to = "activity_minute",
+              values_to = "activity") %>%
+  group_by(day_id, day, week, dow) %>%
+  summarize(daily_act= sum(activity))
+
+acce_table
 ```
 The trends that are apparent 
 
 Accelerometer data allows the inspection activity over the course of the day. Make a single-panel plot that shows the 24-hour activity time courses for each day and use color to indicate day of the week. Describe in words any patterns or conclusions you can make based on this graph.
 
 ```{r}
-ggplot(problem3_data, aes(x = day, fill = sum_activity)) + 
-  geom_histogram (bindwidth =2) +
+plot_accel= acce_table %>%
+  ggplot(aes(x = day_id, y = daily_act, color = day)) +
+  geom_point() +
+  geom_line() +
   labs(
-    title = "24 hour activity",
-    x = "Day of Week",
-    y = "Sum Activity"
-  )
+      title = "Activity Time by Hour per Day for Five Weeks",
+      x = "Day_id",
+      y = "Total Activity Time"
+      )
+plot_accel
 ```
+
 
